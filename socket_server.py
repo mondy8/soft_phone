@@ -8,7 +8,7 @@ CLIENTNUM = 2
 
 class ConnClient(threading.Thread):
 
-    def __init__(self,conn,addr):
+    def __init__(self, conn, addr):
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
         self.conn_socket = conn
@@ -17,6 +17,17 @@ class ConnClient(threading.Thread):
     def run(self):
         try:
             while (1):
+                """
+                
+                if [センサーの条件]:
+                    self.conn_socket.send(b"1234567")
+
+                recvdata = self.conn_socket.recv(1024) 
+                if recvdata:
+                    [膨らませる処理]
+
+                    
+                """
                 senddata = input(str(self.addr)+" SendData:")
                 self.conn_socket.send(senddata.encode())
                 recvdata = self.conn_socket.recv(1024) 
