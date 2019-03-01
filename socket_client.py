@@ -2,7 +2,7 @@ import socket
 import time
 import sys
 
-HOSTNAME = "10.0.1.3"
+HOSTNAME = "10.0.1.44"
 PORT = 12345
 INTERVAL = 3
 RETRYTIMES = 10
