@@ -8,6 +8,7 @@ while(1):
     value = GPIO.input(18)
     # GPIO18ピンの入力状態を表示する
     print("input:"+str(value))
+    time.sleep(0.1)
 
 # GPIOピンをリセット
 # GPIO.cleanup()
