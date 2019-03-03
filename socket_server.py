@@ -41,6 +41,7 @@ class ConnClient(threading.Thread):
             GPIO.output(motor_inp2, 0)
             enA_pwm = GPIO.PWM(enA, 1000)
             enA_pwm.start(0)
+            recvdata = 0
 
             while (1):
 
@@ -54,8 +55,10 @@ class ConnClient(threading.Thread):
                 ####圧力確認
                 value = GPIO.input(pressure)
                 # GPIO18ピンの入力状態を表示する
-                print("input:"+str(value)+",mode:"+str(mode))
+                print("input:"+str(value)+",mode:"+str(mode)+",opponentData:"+str(recvdata))
                 time.sleep(0.1)
+                if recvdata == 1:
+                    mode = 3
 
                 if mode == 1: #何もしていない
 
@@ -63,38 +66,48 @@ class ConnClient(threading.Thread):
                         if value == 0:
                             enA_pwm.ChangeDutyCycle(air_in)
                             GPIO.output(valve, 0) #空気ためる
+                            senddata = 0
                         elif value == 1:
                             enA_pwm.ChangeDutyCycle(0)
                             GPIO.output(valve, 1) #空気ぬける
                             time.sleep(0.1)
                             mode01_condition = 2
+                            senddata = 0
 
                     elif mode01_condition == 2: #空気を補填済み
                         enA_pwm.ChangeDutyCycle(0)
                         GPIO.output(valve, 0) #空気ためる
                         if value == 1: #にぎった
                             mode = 2
+                            senddata = 1 #にぎったときsendataを1にする
+                        elif value == 0:
+                            senddata = 0
 
                 elif mode == 2: #にぎっている
 
                     if value == 1: #にぎっている
                         enA_pwm.ChangeDutyCycle(0)
                         GPIO.output(valve, 0) #空気ためる
+                        senddata = 1 #にぎったときsendataを1にする
                     elif value == 0: #手を離した
                         mode = 1
                         mode01_condition = 1
+                        senddata = 0
 
                 elif mode == 3: #にぎられている
                     if partner_sqz == 1:
                         if value == 0:
                             enA_pwm.ChangeDutyCycle(air_in)
-                            GPIO.output(valve, 0) #空気ためる
+                            GPIO.output(valve, 0) #空気ためる                            
+                            senddata = 0
                         elif value == 1:
                             enA_pwm.ChangeDutyCycle(0)
                             GPIO.output(valve, 0) #空気ためる
+                            senddata = 0
                     elif partner_sqz == 0:
                         mode = 1
                         mode01_condition = 1
+                        senddata = 0
 
                 """
                 
@@ -105,8 +118,10 @@ class ConnClient(threading.Thread):
                 if recvdata:
                     [膨らませる処理]
 
-                    
                 """
+                self.conn_socket.send(senddata)
+                recvdata = self.conn_socket.recv(1024) 
+
 
         except socket.error:
             print("connect error")

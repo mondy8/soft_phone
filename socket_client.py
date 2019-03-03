@@ -31,13 +31,18 @@ def main():
         sys.exit(0)
 
     while(1):
-        recvdata = c_socket.recv(1024)
-        print("ReciveData:"+str(recvdata))
-        senddata = input("SendData:")
-        c_socket.send(senddata.encode())
-        if (recvdata == "quit") or (senddata == "quit"):
-            c_socket.close()
-            break
+        senddata = 0
+        c_socket.send(senddata)
+        recvdata = c_socket.recv(1024) 
+        print("opponentData:"+str(recvdata))
+
+        # recvdata = c_socket.recv(1024)
+        # print("ReciveData:"+str(recvdata))
+        # senddata = input("SendData:")
+        # c_socket.send(senddata.encode())
+        # if (recvdata == "quit") or (senddata == "quit"):
+        #     c_socket.close()
+        #     break
              
 if __name__ == '__main__':
     main()
