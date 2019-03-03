@@ -6,6 +6,7 @@ motor_inp1 = 10 #motor input1 右回り
 motor_inp2 = 12 #motor input1 左回り
 pressure = 16 #圧力センサ
 enA = 18 #motor enableA
+mode = 1 #電話の状態
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(valve, GPIO.OUT)
@@ -21,20 +22,45 @@ try:
     # PWM/100Hzに設定
     enA_pwm = GPIO.PWM(enA, 1000)
     # 初期化
-    enA_pwm.start(90)
+    enA_pwm.start(0)
 
     while(1):
+
         ####圧力確認
         value = GPIO.input(pressure)
         # GPIO18ピンの入力状態を表示する
         print("input:"+str(value))
         time.sleep(0.1)
+        
+        
+        if mode == 1: #何もしていない
 
-        ####valve
-        if value == 0 :
-            GPIO.output(valve, 0)
-        elif value == 1 :
-            GPIO.output(valve, 1)
+            if mode01_condition == 1: #空気を補填中
+                if value == 0:
+                    enA_pwm.ChangeDutyCycle(90)
+                    GPIO.output(valve, 0) #空気ためる
+                elif value == 1:
+                    mode01_condition = 2
+
+            elif mode01_condition == 2: #空気を補填済み
+                    enA_pwm.ChangeDutyCycle(0)
+                    GPIO.output(valve, 0) #空気ためる
+                    if value == 1: #にぎった
+                        mode = 2
+
+        elif mode == 2: #にぎっている
+
+            if value == 1: #にぎっている
+                enA_pwm.ChangeDutyCycle(0)
+                GPIO.output(valve, 0) #空気ためる
+            elif value == 0: #手を離した
+                mode = 1
+                mode01_condition = 1
+
+        elif mode == 3: #にぎられている
+            enA_pwm.ChangeDutyCycle(0)
+            GPIO.output(valve, 0) #空気ためる
+
 
 except KeyboardInterrupt:  
     # here you put any code you want to run before the program   
@@ -48,5 +74,6 @@ except:
     print ("Other error or exception occurred!")  
   
 finally:  
+    enA_pwm.stop()
     GPIO.cleanup() # this ensures a clean exit  
 
