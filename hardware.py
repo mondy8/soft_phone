@@ -7,6 +7,7 @@ motor_inp2 = 12 #motor input1 左回り
 pressure = 16 #圧力センサ
 enA = 18 #motor enableA
 mode = 1 #電話の状態
+air_in = 90 #空気の入れ具合(最大100)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(valve, GPIO.OUT)
@@ -23,9 +24,9 @@ try:
     enA_pwm = GPIO.PWM(enA, 1000)
     # 初期化
     enA_pwm.start(0)
-    mode = 3
+    mode = 1
     mode01_condition = 1
-    partner_sqz = 1
+    partner_sqz = 0
 
     while(1):
 
@@ -39,7 +40,7 @@ try:
 
             if mode01_condition == 1: #空気を補填中
                 if value == 0:
-                    enA_pwm.ChangeDutyCycle(90)
+                    enA_pwm.ChangeDutyCycle(air_in)
                     GPIO.output(valve, 0) #空気ためる
                 elif value == 1:
                     enA_pwm.ChangeDutyCycle(0)
@@ -65,7 +66,7 @@ try:
         elif mode == 3: #にぎられている
             if partner_sqz == 1:
                 if value == 0:
-                    enA_pwm.ChangeDutyCycle(90)
+                    enA_pwm.ChangeDutyCycle(air_in)
                     GPIO.output(valve, 0) #空気ためる
                 elif value == 1:
                     enA_pwm.ChangeDutyCycle(0)
