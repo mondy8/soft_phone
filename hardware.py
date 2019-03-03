@@ -68,7 +68,7 @@ try:
                     enA_pwm.ChangeDutyCycle(90)
                     GPIO.output(valve, 0) #空気ためる
                 elif value == 1:
-                    enA_pwm.ChangeDutyCycle(90)
+                    enA_pwm.ChangeDutyCycle(0)
                     GPIO.output(valve, 0) #空気ためる
             elif partner_sqz == 0:
                 mode = 1
