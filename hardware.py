@@ -4,12 +4,14 @@ import RPi.GPIO as GPIO
 valve = 8
 motor_inp1 = 10 #motor input1 右回り
 motor_inp2 = 12 #motor input1 左回り
-pressure = 18 #圧力センサ
+pressure = 16 #圧力センサ
+enA = 18 #motor enableA
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(valve, GPIO.OUT)
 GPIO.setup(motor_inp1, GPIO.OUT)
 GPIO.setup(motor_inp2, GPIO.OUT)
+GPIO.setup(enA, GPIO.OUT)
 GPIO.setup(pressure, GPIO.IN)
 
 while(1):
