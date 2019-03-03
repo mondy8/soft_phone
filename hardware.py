@@ -25,15 +25,15 @@ try:
     enA_pwm.start(0)
     mode = 1
     mode01_condition = 1
+    partner_sqz = 1
 
     while(1):
 
         ####圧力確認
         value = GPIO.input(pressure)
         # GPIO18ピンの入力状態を表示する
-        print("input:"+str(value))
+        print("input:"+str(value)+",mode:"+mode)
         time.sleep(0.1)
-        
         
         if mode == 1: #何もしていない
 
@@ -44,7 +44,7 @@ try:
                 elif value == 1:
                     enA_pwm.ChangeDutyCycle(0)
                     GPIO.output(valve, 1) #空気ぬける
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                     mode01_condition = 2
 
             elif mode01_condition == 2: #空気を補填済み
@@ -63,8 +63,18 @@ try:
                 mode01_condition = 1
 
         elif mode == 3: #にぎられている
-            enA_pwm.ChangeDutyCycle(0)
-            GPIO.output(valve, 0) #空気ためる
+            if partner_sqz == 1:
+                if value == 0:
+                    enA_pwm.ChangeDutyCycle(90)
+                    GPIO.output(valve, 0) #空気ためる
+                elif value == 1:
+                    enA_pwm.ChangeDutyCycle(90)
+                    GPIO.output(valve, 0) #空気ためる
+            elif partner_sqz == 0:
+                mode = 1
+                mode01_condition = 1
+
+                     
 
 
 except KeyboardInterrupt:  
