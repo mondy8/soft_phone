@@ -44,12 +44,12 @@ class ConnClient(threading.Thread):
 
             while (1):
 
-                senddata = input(str(self.addr)+" SendData:")
-                self.conn_socket.send(senddata.encode())
-                recvdata = self.conn_socket.recv(1024) 
-                print("ReciveData:"+str(recvdata))
-                if (recvdata == "quit") or (senddata == "quit"):
-                    break
+                # senddata = input(str(self.addr)+" SendData:")
+                # self.conn_socket.send(senddata.encode())
+                # recvdata = self.conn_socket.recv(1024) 
+                # print("ReciveData:"+str(recvdata))
+                # if (recvdata == "quit") or (senddata == "quit"):
+                #     break
                 
                 ####圧力確認
                 value = GPIO.input(pressure)
