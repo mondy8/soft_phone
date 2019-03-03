@@ -15,20 +15,20 @@ GPIO.setup(enA, GPIO.OUT)
 GPIO.setup(pressure, GPIO.IN)
 
 try:  
+    ####モーター駆動
+    GPIO.output(motor_inp1, 1)
+    GPIO.output(motor_inp2, 0)
+    # PWM/100Hzに設定
+    enA_pwm = GPIO.PWM(enA, 1000)
+    # 初期化
+    enA_pwm.start(80)
+
     while(1):
         ####圧力確認
         value = GPIO.input(pressure)
         # GPIO18ピンの入力状態を表示する
         print("input:"+str(value))
         time.sleep(0.1)
-
-        ####モーター駆動
-        GPIO.output(motor_inp1, 1)
-        GPIO.output(motor_inp2, 0)
-        # PWM/100Hzに設定
-        enA_pwm = GPIO.PWM(enA, 1000)
-        # 初期化
-        enA_pwm.start(80)
 
         ####valve
         if value == 0 :
