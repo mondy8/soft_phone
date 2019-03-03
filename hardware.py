@@ -32,9 +32,9 @@ try:
 
         ####valve
         if value == 0 :
-            GPIO.output(valve, 1)
-        elif value == 1 :
             GPIO.output(valve, 0)
+        elif value == 1 :
+            GPIO.output(valve, 1)
 
 except KeyboardInterrupt:  
     # here you put any code you want to run before the program   
