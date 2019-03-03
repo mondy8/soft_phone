@@ -32,7 +32,7 @@ try:
         ####圧力確認
         value = GPIO.input(pressure)
         # GPIO18ピンの入力状態を表示する
-        print("input:"+str(value)+",mode:"+mode)
+        print("input:"+str(value)+",mode:"+str(mode))
         time.sleep(0.1)
         
         if mode == 1: #何もしていない
