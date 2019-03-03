@@ -21,7 +21,7 @@ try:
     # PWM/100Hzに設定
     enA_pwm = GPIO.PWM(enA, 1000)
     # 初期化
-    enA_pwm.start(100)
+    enA_pwm.start(90)
 
     while(1):
         ####圧力確認
@@ -32,9 +32,9 @@ try:
 
         ####valve
         if value == 0 :
-            GPIO.output(valve, 0)
-        elif value == 1 :
             GPIO.output(valve, 1)
+        elif value == 1 :
+            GPIO.output(valve, 0)
 
 except KeyboardInterrupt:  
     # here you put any code you want to run before the program   
