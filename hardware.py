@@ -21,7 +21,7 @@ try:
     # PWM/100Hzに設定
     enA_pwm = GPIO.PWM(enA, 1000)
     # 初期化
-    enA_pwm.start(80)
+    enA_pwm.start(100)
 
     while(1):
         ####圧力確認
