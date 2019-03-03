@@ -24,6 +24,10 @@ while(1):
     ####モーター駆動
     GPIO.output(motor_inp1, 1)
     GPIO.output(motor_inp2, 0)
+    # PWM/100Hzに設定
+    MOTOR_LEVEL = GPIO.PWM(enA, 80)
+    # 初期化
+    MOTOR_LEVEL.start(0)
 
     ####valve
     if value == 0 :
