@@ -31,8 +31,8 @@ def main():
         sys.exit(0)
 
     while(1):
-        senddata = 0
-        c_socket.send(senddata)
+        senddata = "0"
+        c_socket.send(senddata.encode())
         recvdata = c_socket.recv(1024) 
         print("opponentData:"+str(recvdata))
 
