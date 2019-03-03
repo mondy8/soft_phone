@@ -23,7 +23,7 @@ try:
     enA_pwm = GPIO.PWM(enA, 1000)
     # 初期化
     enA_pwm.start(0)
-    mode = 1
+    mode = 3
     mode01_condition = 1
     partner_sqz = 1
 
