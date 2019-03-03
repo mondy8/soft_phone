@@ -44,7 +44,7 @@ try:
                 elif value == 1:
                     enA_pwm.ChangeDutyCycle(0)
                     GPIO.output(valve, 1) #空気ぬける
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                     mode01_condition = 2
 
             elif mode01_condition == 2: #空気を補填済み
